@@ -9,7 +9,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "al00x/printer": [
+      "al00x/screen-detector": [
         "src/lib/index.ts",
       ]
     },
