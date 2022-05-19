@@ -1,0 +1,10 @@
+<div style="width: 100vw;; background: gray; padding: 5rem">
+  <button (click)="printer.print()">Export ?</button>
+</div>
+
+
+
+<div class="print-element" #printer="alxPrint" [hidden]="true" alxPrint>
+  <p>{{ title }}</p>
+  <p>Im going to be printed!</p>
+</div>
