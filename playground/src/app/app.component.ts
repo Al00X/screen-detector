@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ScreenDetectorService} from "al00x/screen-detector";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'playground';
+  constructor(public screenDetector: ScreenDetectorService) {
+  }
 }

@@ -1,10 +1,9 @@
-<div style="width: 100vw;; background: gray; padding: 5rem">
-  <button (click)="printer.print()">Export ?</button>
+<div *ngIf="{isDesktop: screenDetector.isDesktop$ | async} as screen">
+  <p>Current device is in desktop size?   {{ screen.isDesktop ? 'Yes' : 'No'}}</p>
 </div>
-
-
-
-<div class="print-element" #printer="alxPrint" [hidden]="true" alxPrint>
-  <p>{{ title }}</p>
-  <p>Im going to be printed!</p>
+<div *ngIf="{xl: screenDetector.xl$ | async} as screen">
+  <p>Is XL ?   {{screen.xl ? 'Yes' : 'No'}}</p>
+</div>
+<div *ngIf="{ md: screenDetector.md$ | async } as screen">
+  <p>Is MD ??   {{screen.md ? 'YES!' : 'Nope'}}</p>
 </div>

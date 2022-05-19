@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "alx-printer": {
+    "alx-screen-detector": {
       "projectType": "library",
       "root": "",
       "sourceRoot": "src",
@@ -62,8 +62,7 @@
               "playground/src/assets"
             ],
             "styles": [
-              "playground/src/styles.scss",
-              "static/styles.css"
+              "playground/src/styles.scss"
             ],
             "scripts": []
           },
