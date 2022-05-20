@@ -37,7 +37,7 @@ You can config screen detector for more customization by providing `ALX_SCREEN_D
       provide: ALX_SCREEN_DETECTOR_CONFIG,
       useValue: {
         ...,
-        // The breakpoints below are the default values that are the same as default tailwind breakpoints.
+        // The breakpoints below are the default values that are the same as default TailwindCSS breakpoints.
         breakpoints: {
           xxl: 1536,
           xl: 1280,
@@ -58,6 +58,6 @@ export class AppModule { }
 |--|--|--|
 | `desktopBreakpoint: 'xxl' \| 'xl' \| 'lg' \| 'md' \| 'sm'`  | 'lg' | You can set at which breakpoint, the screen is considered as desktop |
 | `resizeDebounceTime: number`  | 25 | Screen resize event debounce time in milliseconds **(affects performance)** |
-| `desktopBreakpoint: AlXScreenDetectorBreakpoints`  | *In the example above* | Describe each breakpoint's pixels |
+| `breakpoints: AlXScreenDetectorBreakpoints`  | *In the example above* | Describe each breakpoint's pixels |
 
 
