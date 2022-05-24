@@ -22,7 +22,7 @@ Install using your preferred package manager:
   XL Breakpoint? {{ device.isXL ? 'YES' : 'NO'}}
 </ng-container>
 ```
-There's 5 different breakpoint types, also with `isDesktop`.
+There's 5 different breakpoint types, also with utility: `isDesktop` and `state`.
 
 ### ⚙️ Config:
 You can config screen detector for more customization by providing `ALX_SCREEN_DETECTOR_CONFIG` in **AppModule**.
@@ -58,6 +58,6 @@ export class AppModule { }
 |--|--|--|
 | `desktopBreakpoint: 'xxl' \| 'xl' \| 'lg' \| 'md' \| 'sm'`  | 'lg' | You can set at which breakpoint, the screen is considered as desktop |
 | `resizeDebounceTime: number`  | 25 | Screen resize event debounce time in milliseconds **(affects performance)** |
-| `breakpoints: AlXScreenDetectorBreakpoints`  | *In the example above* | Describe each breakpoint's pixels |
+| `breakpoints: BreakpointsConfig`  | *In the example above* | Describe each breakpoint's pixels |
 
 

@@ -2,17 +2,17 @@ import {Inject, Injectable, InjectionToken, OnDestroy, Optional} from '@angular/
 import {BehaviorSubject, debounceTime, fromEvent, Subscription} from 'rxjs';
 
 type BreakpointKeys = 'xxl' | 'xl' | 'lg' | 'md' | 'sm';
-export type AlXScreenDetectorBreakpoints = {[key in BreakpointKeys]: number};
+export type BreakpointsConfig = {[key in BreakpointKeys]: number};
 export interface AlxScreenDetectorConfig {
   resizeDebounceTime?: number;
   desktopBreakpoint?: BreakpointKeys;
-  breakpoints?: AlXScreenDetectorBreakpoints;
+  breakpoints?: BreakpointsConfig;
 }
 
 export const ALX_SCREEN_DETECTOR_CONFIG = new InjectionToken('Config for AlX Screen Detector package');
 
 /* The default breakpoints are the same as TailwindCSS sizes */
-const DEFAULT_BREAKPOINTS: AlXScreenDetectorBreakpoints = {
+const DEFAULT_BREAKPOINTS: BreakpointsConfig = {
   xxl: 1536,
   xl: 1280,
   lg: 1024,
@@ -32,9 +32,17 @@ export class ScreenDetectorService implements OnDestroy {
   public md$ = new BehaviorSubject<boolean>(false);
   public sm$ = new BehaviorSubject<boolean>(false);
   public isDesktop$ = new BehaviorSubject<boolean>(false);
+  public state$ = new BehaviorSubject<{[key in BreakpointKeys | 'isDesktop']: boolean}>({
+    xxl: false,
+    xl: false,
+    lg: false,
+    md: false,
+    sm: false,
+    isDesktop: false,
+  })
 
   private resizeSub$: Subscription;
-  private readonly breakpoints: AlXScreenDetectorBreakpoints;
+  private readonly breakpoints: BreakpointsConfig;
   private readonly desktopBreakpointKey: BreakpointKeys;
   private readonly resizeDebounceTime: number;
 
@@ -58,6 +66,15 @@ export class ScreenDetectorService implements OnDestroy {
     this.xxl$.next(screenWidth >= this.breakpoints.xxl);
 
     this.isDesktop$.next(screenWidth >= this.breakpoints[this.desktopBreakpointKey]);
+
+    this.state$.next({
+      sm: this.sm$.value,
+      md: this.md$.value,
+      lg: this.lg$.value,
+      xl: this.xl$.value,
+      xxl: this.xxl$.value,
+      isDesktop: this.isDesktop$.value,
+    })
   }
 
   ngOnDestroy() {

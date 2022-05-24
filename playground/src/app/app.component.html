@@ -1,9 +1,20 @@
 <div *ngIf="{isDesktop: screenDetector.isDesktop$ | async} as screen">
   <p>Current device is in desktop size?   {{ screen.isDesktop ? 'Yes' : 'No'}}</p>
 </div>
+
 <div *ngIf="{xl: screenDetector.xl$ | async} as screen">
   <p>Is XL ?   {{screen.xl ? 'Yes' : 'No'}}</p>
 </div>
+
 <div *ngIf="{ md: screenDetector.md$ | async } as screen">
   <p>Is MD ??   {{screen.md ? 'YES!' : 'Nope'}}</p>
+</div>
+
+<div *ngIf="screenDetector.state$ | async as screenState">
+  <div class="circles-container">
+    <div *ngIf="screenState.sm" class="circle"></div>
+    <div *ngIf="screenState.md" class="circle"></div>
+    <div *ngIf="screenState.lg" class="circle"></div>
+    <div *ngIf="screenState.xl" class="circle"></div>
+  </div>
 </div>
