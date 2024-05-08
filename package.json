@@ -17,7 +17,7 @@
     "url": "git+https://github.com/Al00X/screen-detector"
   },
   "homepage": "https://github.com/Al00X/screen-detector#readme",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "scripts": {
     "ng": "ng",
     "start": "ng s",

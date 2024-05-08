@@ -1,7 +1,7 @@
 import {Inject, Injectable, InjectionToken, OnDestroy, Optional} from '@angular/core';
 import {BehaviorSubject, debounceTime, fromEvent, Subscription} from 'rxjs';
 
-type BreakpointKeys = 'xxl' | 'xl' | 'lg' | 'md' | 'sm';
+type BreakpointKeys = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
 export type BreakpointsConfig = {[key in BreakpointKeys]: number};
 export interface AlxScreenDetectorConfig {
   resizeDebounceTime?: number;
@@ -18,6 +18,7 @@ const DEFAULT_BREAKPOINTS: BreakpointsConfig = {
   lg: 1024,
   md: 768,
   sm: 640,
+  xs: 420,
 }
 const DEFAULT_DESKTOP_BREAKPOINT = 'lg';
 const DEFAULT_RESIZE_DEBOUNCE_TIME = 25;
@@ -31,6 +32,7 @@ export class ScreenDetectorService implements OnDestroy {
   public lg$ = new BehaviorSubject<boolean>(false);
   public md$ = new BehaviorSubject<boolean>(false);
   public sm$ = new BehaviorSubject<boolean>(false);
+  public xs$ = new BehaviorSubject<boolean>(false);
   public isDesktop$ = new BehaviorSubject<boolean>(false);
   public state$ = new BehaviorSubject<{[key in BreakpointKeys | 'isDesktop']: boolean}>({
     xxl: false,
@@ -38,6 +40,7 @@ export class ScreenDetectorService implements OnDestroy {
     lg: false,
     md: false,
     sm: false,
+    xs: false,
     isDesktop: false,
   });
   public current$ = new BehaviorSubject<BreakpointKeys | undefined>(undefined);
@@ -75,7 +78,7 @@ export class ScreenDetectorService implements OnDestroy {
 
   private updateState() {
     const screenWidth = window.innerWidth;
-    const state: any = {};
+    const state: {[p in BreakpointKeys]: boolean} = {} as any;
     let current: BreakpointKeys | undefined = undefined;
 
     for(const [key, width] of this.sortedBreakpointsEntry) {
@@ -85,6 +88,7 @@ export class ScreenDetectorService implements OnDestroy {
       }
     }
 
+    this.xs$.next(state['xs']);
     this.sm$.next(state['sm']);
     this.md$.next(state['md']);
     this.lg$.next(state['lg']);

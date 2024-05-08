@@ -10,27 +10,30 @@ Install using your preferred package manager:
     npm i @al00x/screen-detector
 
 ## ✨ Usage:
-`ScreenDetectorService` it's what you need!
+`ScreenDetectorService` it's all you need!
 
 ```html
-<div *ngIf="screenDetector.isDesktop$ | async">
+<div *NgIf="screenDetector.isDesktop$ | async">
   Render when reached desktop breakpoint
 </div>
 
-<!-- The below *ngIf condition, it's always true -->
-<ng-container *ngIf="{isXL: screenDetector.xl$ | async} as device">
-  XL Breakpoint? {{ device.isXL ? 'YES' : 'NO'}}
+<!-- The below *NgIf condition, it's always true -->
+<ng-container *NgIf="{state: screenDetector.state$ | async} as screen">
+  XL Breakpoint? {{ screen.xl ? 'YES' : 'NO'}}
 </ng-container>
 ```
-There's 5 different breakpoint types, also with utility: `isDesktop` and `state`.
+
+There's 6: `xxl, xl, lg, md, sm, xs` breakpoint types, also with utility: `isDesktop` which is defaulted as `lg` and it's changeable.
+
+You can also check the example files for various usages: [Playground](playground/src/app)
 
 ### ⚙️ Config:
-You can config screen detector for more customization by providing `ALX_SCREEN_DETECTOR_CONFIG` in **AppModule**.
+You can config screen detector for more customization by providing `ALX_SCREEN_DETECTOR_CONFIG`.
 
 ```ts
-// app.module.ts
+// component.ts
 
-@NgModule({
+@Component({
   ...,
   providers: [
     {
@@ -44,20 +47,21 @@ You can config screen detector for more customization by providing `ALX_SCREEN_D
           lg: 1024,
           md: 768,
           sm: 640,
+          xs: 420,
         }
       } as AlxScreenDetectorConfig
     }
   ],
 })
-export class AppModule { }
+export class Component { }
 ```
 
 #### Config Options:
 
-| property | default | description |
-|--|--|--|
-| `desktopBreakpoint: 'xxl' \| 'xl' \| 'lg' \| 'md' \| 'sm'`  | 'lg' | You can set at which breakpoint, the screen is considered as desktop |
-| `resizeDebounceTime: number`  | 25 | Screen resize event debounce time in milliseconds **(affects performance)** |
-| `breakpoints: BreakpointsConfig`  | *In the example above* | Describe each breakpoint's pixels |
+| property                                                          | default               | description                                                                                                        |
+|-------------------------------------------------------------------|-----------------------|--------------------------------------------------------------------------------------------------------------------|
+| `desktopBreakpoint: 'xxl' \| 'xl' \| 'lg' \| 'md' \| 'sm' \| 'xs'` | 'lg' | You can set at which breakpoint is considered as desktop                                                           |
+| `resizeDebounceTime: number`                                      | 25                    | Screen resize event debounce time in milliseconds; Shorter values cause a faster detection but reduced performance |
+| `breakpoints: BreakpointsConfig`                                  | *In the example above* | Describe each breakpoint's pixels                                                                                  |
 
 
