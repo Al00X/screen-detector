@@ -20,6 +20,7 @@
   "version": "1.2.1",
   "scripts": {
     "ng": "ng",
+    "start": "ng s",
     "build": "npm run ng:build && npm run script:static-copy",
     "ng:build": "ng build --configuration=production",
     "script:static-copy": "ts-node scripts/copy-static-files.ts",

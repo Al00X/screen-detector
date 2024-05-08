@@ -9,7 +9,7 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "al00x/screen-detector": [
+      "@al00x/screen-detector": [
         "src/lib/index.ts",
       ]
     },

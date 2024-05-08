@@ -18,3 +18,18 @@
     <div *ngIf="screenState.xl" class="circle"></div>
   </div>
 </div>
+
+<div>
+  <p>Current breakpoint: {{ screenDetector.current$ | async }}</p>
+</div>
+
+<hr>
+
+<button (click)="getValue()">Get value based on the screen width</button>
+<span style="margin-left: 1rem">{{ result() }}</span>
+<div style="margin-top: 0.5rem">
+  <code>
+    {{ values | json }}
+  </code>
+</div>
+

@@ -39,15 +39,18 @@ export class ScreenDetectorService implements OnDestroy {
     md: false,
     sm: false,
     isDesktop: false,
-  })
+  });
+  public current$ = new BehaviorSubject<BreakpointKeys | undefined>(undefined);
 
   private resizeSub$: Subscription;
   private readonly breakpoints: BreakpointsConfig;
+  private readonly sortedBreakpointsEntry: [BreakpointKeys, number][];
   private readonly desktopBreakpointKey: BreakpointKeys;
   private readonly resizeDebounceTime: number;
 
   constructor(@Optional() @Inject(ALX_SCREEN_DETECTOR_CONFIG) private config?: AlxScreenDetectorConfig) {
     this.breakpoints = config?.breakpoints ?? DEFAULT_BREAKPOINTS;
+    this.sortedBreakpointsEntry = Object.entries(this.breakpoints).sort((a, b) => a[1] < b[1] ? 1 : -1) as any;
     this.desktopBreakpointKey = config?.desktopBreakpoint ?? DEFAULT_DESKTOP_BREAKPOINT;
     this.resizeDebounceTime = config?.resizeDebounceTime ?? DEFAULT_RESIZE_DEBOUNCE_TIME;
 
@@ -57,22 +60,43 @@ export class ScreenDetectorService implements OnDestroy {
     this.updateState();
   }
 
+  public select<T>(values: {[p in BreakpointKeys]?: T}) {
+    if (!this.current$.value) return undefined;
+
+    const currentBreakpointWidth = this.breakpoints[this.current$.value];
+
+    for(const key of this.sortedBreakpointsEntry.filter(t => currentBreakpointWidth >= t[1]).map(t => t[0])) {
+      const value = values[key];
+      if (value) return value;
+    }
+
+    return undefined;
+  }
+
   private updateState() {
     const screenWidth = window.innerWidth;
-    this.sm$.next(screenWidth >= this.breakpoints.sm);
-    this.md$.next(screenWidth >= this.breakpoints.md);
-    this.lg$.next(screenWidth >= this.breakpoints.lg);
-    this.xl$.next(screenWidth >= this.breakpoints.xl);
-    this.xxl$.next(screenWidth >= this.breakpoints.xxl);
+    const state: any = {};
+    let current: BreakpointKeys | undefined = undefined;
 
-    this.isDesktop$.next(screenWidth >= this.breakpoints[this.desktopBreakpointKey]);
+    for(const [key, width] of this.sortedBreakpointsEntry) {
+      state[key] = screenWidth >= width;
+      if (!current && state[key]) {
+        current = key;
+      }
+    }
+
+    this.sm$.next(state['sm']);
+    this.md$.next(state['md']);
+    this.lg$.next(state['lg']);
+    this.xl$.next(state['xl']);
+    this.xxl$.next(state['xxl']);
+
+    this.isDesktop$.next(state[this.desktopBreakpointKey]);
+
+    this.current$.next(current);
 
     this.state$.next({
-      sm: this.sm$.value,
-      md: this.md$.value,
-      lg: this.lg$.value,
-      xl: this.xl$.value,
-      xxl: this.xxl$.value,
+      ...state,
       isDesktop: this.isDesktop$.value,
     })
   }
